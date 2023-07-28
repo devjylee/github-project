@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>판매 정보</title>
+<script th:src="@{/js/jquery-3.6.0.js}"></script>
+<script>
+
+</script>
+</head>
+<body>
+	<h1>[ 판매 정보 ]</h1>
+	
+	<table>
+		<tr>
+			<th>작성자</th>
+			<td th:text="${board.memberid}"></td>
+		</tr>
+		<tr>
+			<th>작성일</th>
+			<td th:text="${board.inputdate}"></td>
+		</tr>
+		<tr>
+			<th>제목</th>
+			<td th:text="${board.title}"></td>
+		</tr>
+		<tr>
+			<th>내용</th>
+			<td th:text="${board.contents}"></td>
+		</tr>
+		<tr>
+			<th></th>
+			<td th:if="${#authentication.name} == ${board.memberid}"><a th:href="@{/board/delete(boardnum=${board.boardnum})}">삭제</a></td>
+			<td th:unless="${#authentication.name} == ${board.memberid}"><a th:href="@{/board/buy(boardnum=${board.boardnum})}">구매하기</a></td>
+		</tr>
+	</table>
+
+		<form th:action="@{/board/replyWrite(boardnum=${board.boardnum})}" method="post">
+		<input type="text" name="replytext">
+		<input type="submit" value="확인">
+		</form>
+		
+	<table>
+		<tr th:each="r:${replyList}">
+			<td th:text="${r.memberid}"></td>
+			<td th:text="${r.replytext}"></td>
+			<td th:text="${r.inputdate}"></td>
+		</tr>
+	</table>
+</body>
+</html>
